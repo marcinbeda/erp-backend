@@ -19,7 +19,7 @@ public class Operator {
     private String password;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "idEmployee")
+    @JoinColumn(name= "idEmployee")
     private Employee employee;
 
 }
