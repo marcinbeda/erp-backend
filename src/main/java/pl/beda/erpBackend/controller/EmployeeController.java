@@ -8,6 +8,7 @@ import pl.beda.erpBackend.entity.Employee;
 import pl.beda.erpBackend.repository.EmployeeRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -17,8 +18,19 @@ public class EmployeeController {
     private final EmployeeRepository employeeRepository;
 
     @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee newEmployee){
-        return employeeRepository.save(newEmployee);
+    EmployeeDto saveOrUpdateEmployee(@RequestBody EmployeeDto dto){
+        if(dto.getIdEmployee() == null){
+            return EmployeeDto.of(employeeRepository.save(Employee.of(dto)));
+        } else {
+            Optional<Employee> optionalEmployee = employeeRepository.findById(dto.getIdEmployee());
+            if(optionalEmployee.isPresent()){
+                Employee employee = optionalEmployee.get();
+                employee.updateEmployee(dto);
+                return EmployeeDto.of(employeeRepository.save(employee));
+            } else {
+                throw new RuntimeException("Can't find user with given id: " + dto.getIdEmployee());
+            }
+        }
     }
 
     @GetMapping("/employees")
@@ -29,8 +41,15 @@ public class EmployeeController {
                 .collect(Collectors.toList());
     }
 
-    @DeleteMapping("/employees")
-    ResponseEntity deleteEmployee(@RequestBody Long idEmployee){
+    @GetMapping("/employees/{idEmployee}")
+    public EmployeeDto getEmployee(@PathVariable Long idEmployee) throws InterruptedException {
+        Thread.sleep(500);
+        Optional<Employee> optionalEmployee = employeeRepository.findById(idEmployee);
+        return EmployeeDto.of(optionalEmployee.get());
+    }
+
+    @DeleteMapping("/employees/{idEmployee}")
+    ResponseEntity deleteEmployee(@PathVariable Long idEmployee){
         employeeRepository.deleteById(idEmployee);
         return ResponseEntity.ok().build();
     }
