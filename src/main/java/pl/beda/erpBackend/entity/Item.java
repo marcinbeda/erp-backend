@@ -1,9 +1,9 @@
 package pl.beda.erpBackend.entity;
 
 import lombok.Data;
+import pl.beda.erpBackend.dto.ItemSaveDto;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Data
@@ -20,15 +20,17 @@ public class Item {
     private Double quantity;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="idQuantityType")
+    @JoinColumn(name = "idQuantityType")
     private QuantityType quantityType;
 
-    @ManyToMany
-    @JoinTable(
-            name = "item_warehouse",
-            joinColumns = @JoinColumn(name="idItem"),
-            inverseJoinColumns = @JoinColumn(name = "idWarehouse")
-    )
-    private Set<Warehouse> warehouses;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idWarehouse")
+    private Warehouse warehouse;
 
+    public static Item of(ItemSaveDto dto) {
+        Item item = new Item();
+        item.setName(dto.getName());
+        item.setQuantity(dto.getQuantity());
+        return item;
+    }
 }

@@ -11,13 +11,13 @@ public class OperatorAuthenticationResultDto {
     private String lastName;
     private boolean authenticated;
 
-    public static OperatorAuthenticationResultDto createUnauthenticated(){
+    public static OperatorAuthenticationResultDto createUnauthenticated() {
         OperatorAuthenticationResultDto dto = new OperatorAuthenticationResultDto();
         dto.setAuthenticated(false);
         return dto;
     }
 
-    public static OperatorAuthenticationResultDto of(Operator operator){
+    public static OperatorAuthenticationResultDto of(Operator operator) {
         OperatorAuthenticationResultDto dto = new OperatorAuthenticationResultDto();
         dto.setAuthenticated(true);
         dto.setFirstName(operator.getEmployee().getFirstName());
@@ -25,8 +25,5 @@ public class OperatorAuthenticationResultDto {
         dto.setIdOperator(operator.getIdOperator());
         return dto;
     }
-
-
-
 
 }

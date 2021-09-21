@@ -18,12 +18,12 @@ public class EmployeeController {
     private final EmployeeRepository employeeRepository;
 
     @PostMapping("/employees")
-    EmployeeDto saveOrUpdateEmployee(@RequestBody EmployeeDto dto){
-        if(dto.getIdEmployee() == null){
+    EmployeeDto saveOrUpdateEmployee(@RequestBody EmployeeDto dto) {
+        if (dto.getIdEmployee() == null) {
             return EmployeeDto.of(employeeRepository.save(Employee.of(dto)));
         } else {
             Optional<Employee> optionalEmployee = employeeRepository.findById(dto.getIdEmployee());
-            if(optionalEmployee.isPresent()){
+            if (optionalEmployee.isPresent()) {
                 Employee employee = optionalEmployee.get();
                 employee.updateEmployee(dto);
                 return EmployeeDto.of(employeeRepository.save(employee));
@@ -34,7 +34,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    List<EmployeeDto> listEmployees(){
+    List<EmployeeDto> listEmployees() {
         return employeeRepository.findAll()
                 .stream()
                 .map(EmployeeDto::of)
@@ -49,7 +49,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employees/{idEmployee}")
-    ResponseEntity deleteEmployee(@PathVariable Long idEmployee){
+    ResponseEntity deleteEmployee(@PathVariable Long idEmployee) {
         employeeRepository.deleteById(idEmployee);
         return ResponseEntity.ok().build();
     }

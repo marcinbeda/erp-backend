@@ -11,7 +11,7 @@ public class EmployeeDto {
     private String lastName;
     private String salary;
 
-    public static EmployeeDto of(Employee employee){
+    public static EmployeeDto of(Employee employee) {
         EmployeeDto dto = new EmployeeDto();
         dto.setIdEmployee(employee.getIdEmployee());
         dto.setFirstName(employee.getFirstName());

@@ -25,7 +25,7 @@ public class Employee {
     @OneToOne(mappedBy = "employee")
     private Operator operator;
 
-    public static Employee of(EmployeeDto dto){
+    public static Employee of(EmployeeDto dto) {
         Employee employee = new Employee();
         employee.setFirstName(dto.getFirstName());
         employee.setLastName(dto.getLastName());
